@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header-class{
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid black;
+    padding: 15px 5px;
+    margin: 5px;
+    background-color: beige;
+}
+
+.nav-bar{
+    list-style-type: none;
+    margin: 0 20px;
+    
+}
+
+ul>li{
+    display: inline;
+    padding: 15px;
+    font-size: 30px;
+    
+}
+
+.header-class > img{
+    width: 100px;
+}
+.body-class{
+    margin: 5px;
+    padding: 5px;
+}
+.rest-card{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.rest-card-wrapper,.shimmer-body-card{
+    
+    padding: 5px;
+    margin: 5px;
+    width: 200px;
+    height: 300px;
+    border: 1px solid black;
+    background-color: rgb(209, 214, 218);
+}
+.rest-card-wrapper >img{
+    height: 150px;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+.rest-card-wrapper >h4 ,.rest-card-wrapper >h5,.rest-card-wrapper >h6{
+    margin: 5px;
+}
+
+.filter-btn {
+    padding: 5px;
+    font-size: 15px;
+}
+
+.shimmer-card{
+    
+    padding: 5px;
+    margin: 5px;
+    width: 200px;
+    height: 300px;
+    border: 1px solid black;
+    background-color: rgb(209, 214, 218);
+    
+}
+
+.shimmer-body-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.search-filter{
+    display: flex;
+    gap: 10px  10px;
+}
