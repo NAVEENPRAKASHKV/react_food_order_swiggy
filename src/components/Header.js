@@ -1,6 +1,6 @@
 import {LOGO_URL} from "../utils/constant"
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom/client';
+import { Link } from "react-router-dom";
 
 
 
@@ -13,9 +13,10 @@ const Header = ()=>{
         <div className="header-class"> 
          <img src={LOGO_URL}/>
         <ul className="nav-bar">
-            <li>Home</li>
-            <li>about</li>
-            <li>more</li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="about">about</Link></li>
+            <li><Link to="contact">Contact Us</Link></li>
+            <li><Link to="more">more</Link></li>
             <li><button onClick={loginfunc}>{loginBtn}</button></li>
         </ul>
 

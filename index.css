@@ -46,6 +46,8 @@ ul>li{
     height: 300px;
     border: 1px solid black;
     background-color: rgb(209, 214, 218);
+    cursor: pointer;
+    
 }
 .rest-card-wrapper >img{
     height: 150px;
