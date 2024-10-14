@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import RestCard from "./RestCard"
-// import resList from '../utils/mockData';
+ import resList from '../utils/mockData';
 
 import {useState,useEffect} from "react"
 import Shimmer from "../components/Shimmer"
@@ -12,15 +12,14 @@ const Body =()=>{
          const [newResList,setNewResList] =useState([])
          const [filterList,setFilterList] =useState([])
          const [searchText,setSearchText] =useState("")
-// fetching the data
-          const fetchData = async() => {
+         // fetching the data
+         const fetchData = async() => {
             try {
-              const data = await fetch('https://www.swiggy.com/mapi/homepage/getCards?lat=9.954150799999999&lng=76.37964529999999')
+              const data = await fetch('https://www.swiggy.com/mapi/misc_new/skeleton?lat=9.954150799999999&lng=76.37964529999999')
               const jsObj = await data.json()
-    
               const swiggyResList =jsObj?.data?.success?.cards[1]?.gridWidget?.gridElements?.infoWithStyle?.restaurants
-              setNewResList(swiggyResList)
-              setFilterList(swiggyResList)
+              setNewResList(swiggyResList||resList)
+              setFilterList(swiggyResList||resList)
                         
               } catch (error) {
                 console.error(`Error fetching data: ${error}`)
