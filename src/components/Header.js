@@ -1,6 +1,9 @@
 import {LOGO_URL} from "../utils/constant"
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import { useSelector } from "react-redux";
+
 
 
 
@@ -9,15 +12,20 @@ const Header = ()=>{
     const loginfunc=()=>{
         loginBtn==="Login"?setLoginBtn("Logout"):setLoginBtn("Login")
     }
+    const onlineStatus = useOnlineStatus()
+
+    const cartItem =useSelector((store)=>store.cart.items)
     return (
-        <div className="header-class"> 
-         <img src={LOGO_URL}/>
-        <ul className="nav-bar">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="about">about</Link></li>
-            <li><Link to="contact">Contact Us</Link></li>
-            <li><Link to="more">more</Link></li>
-            <li><button onClick={loginfunc}>{loginBtn}</button></li>
+        <div className="flex justify-between bg-pink-300 shadow-lg"> 
+         <img className="w-28 h-28" src={LOGO_URL}/>
+        <ul className="flex align-middle p-4 m-4">
+            <li className="px-4"><Link to="/">Home</Link></li>
+            <li className="px-4"><Link to="about">about</Link></li>
+            <li className="px-4"><Link to="contact">Contact Us</Link></li>
+            <li className="px-4"><Link to="/cart"  >Cart ({cartItem.length})</Link></li>
+            <li className="px-4"><button onClick={loginfunc}>{loginBtn}</button></li>
+            <li> Network Status{onlineStatus===true? "🟢" : "🔴"}</li>
+
         </ul>
 
         </div>

@@ -1,32 +1,42 @@
-import React, { useEffect ,useState} from "react";
 import { useParams } from "react-router-dom";
-import {Menu_URL} from "../utils/constant"
+
 import Shimmer from "./Shimmer";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
-const MenuCard = ()=>{
-    const [resInfo,setResInfo] =useState(null)
-    const {resId} = useParams();
-    const fetchData=async ()=>{
-        const data = await fetch(Menu_URL+resId)
-        const jsObj =await data.json()
-        console.log(jsObj)
-        setResInfo(jsObj?.data?.cards[2]?.card?.card?.info)
-    }
-    useEffect(()=>{
-        fetchData()
-    },[])
-    if(resInfo===null)return <Shimmer/>
-    const {name,avgRatingString,totalRatingsString} =resInfo 
+const MenuCard = () => {
+  const { resId } = useParams();
+  // custom hook
+  const resInfo = useRestaurantMenu(resId);
+  console.log(resInfo);
+  // using shimmer UI
+  if (resInfo === null) return <Shimmer />;
 
-    return(
-        <div>
-            <h1>{name}</h1>
-            <h6>the rating {avgRatingString} is done by {totalRatingsString}</h6>
-            
-            
-        </div>
-    )
+  const { name, avgRatingString, totalRatingsString } =
+    resInfo?.data?.cards[2]?.card?.card?.info;
+  const categories =
+    resInfo?.data?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (cat) =>
+        cat?.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+  console.log(categories);
 
-}
+  return (
+    <div>
+      <h1 className="text-center p-4 text-2xl font-bold">{name}</h1>
+      <h6 className="text-center">
+        {avgRatingString}⭐ {totalRatingsString}
+      </h6> 
+      {categories.map((category,index)=>{
+         return <RestaurantCategory key={index}  category={category} />
 
+      })}
+      </div>
+  )
+
+  }
 export default MenuCard
+
+
+

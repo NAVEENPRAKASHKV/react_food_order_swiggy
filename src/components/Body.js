@@ -1,26 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import RestCard from "./RestCard"
- import resList from '../utils/mockData';
-
+import resList from '../utils/mockData';
 import {useState,useEffect} from "react"
 import Shimmer from "../components/Shimmer"
 import { Link } from 'react-router-dom';
+import useOnlineStatus from '../utils/useOnlineStatus';
 
 
 const Body =()=>{
          const [newResList,setNewResList] =useState([])
          const [filterList,setFilterList] =useState([])
          const [searchText,setSearchText] =useState("")
+
+         const onlineStatus = useOnlineStatus()
+        
          // fetching the data
          const fetchData = async() => {
             try {
-              const data = await fetch('https://www.swiggy.com/mapi/misc_new/skeleton?lat=9.954150799999999&lng=76.37964529999999')
+              const data = await fetch('https://www.swiggy.com/mapi/homepage/getCards?lat=9.954150799999999&lng=76.37964529999999')
               const jsObj = await data.json()
               const swiggyResList =jsObj?.data?.success?.cards[1]?.gridWidget?.gridElements?.infoWithStyle?.restaurants
               setNewResList(swiggyResList||resList)
-              setFilterList(swiggyResList||resList)
-                        
+              setFilterList(swiggyResList||resList)         
               } catch (error) {
                 console.error(`Error fetching data: ${error}`)
             }
@@ -28,28 +29,32 @@ const Body =()=>{
           useEffect(() => {
             fetchData();
         }, []);
+        
             const filterFunc=()=>{
             let filetrData=newResList.filter((res)=>{ return res.info.avgRating>4.6})
             setFilterList(filetrData)
           }    
-// return the JSX
+          if (onlineStatus===false){return (
+            <h1>you are offline</h1>
+           )}
+
     return newResList.length === 0? <Shimmer/>:  (
         <div className="body-class">
           {/* search and filter button */}
-          <div className='search-filter'>
-              <input type="text" value ={searchText} onChange={(e)=>{
+          <div className='m-6'>
+              <input className=' mx-3 border border-solid border-black' type="text" value ={searchText} onChange={(e)=>{
                 let val =e.target.value
                 setSearchText(val)
               }}></input>
-              <button onClick={()=>{
+              <button className='px-4 py-2 mx-3 bg-green-300 rounded-lg' onClick={()=>{
                 let filetrData =newResList.filter((res)=>{return res.info.name.toLowerCase().includes(searchText.toLowerCase())})
                 setFilterList(filetrData)
               }
-              }>Search</button>
-              <button className='filter-btn' onClick={filterFunc} >filter</button>
+              }>Filter</button>
+              <button className='px-4 py-2 mx-20 bg-gray-200 rounded-lg' onClick={filterFunc} >Top Rated Hotel</button>
           </div>
             
-            <div className="rest-card" >
+            <div className="flex flex-wrap " >
             {filterList.map((res)=>{
                 return(
                   <Link key={res.info.id} to={"/restaurant/"+res.info.id} ><RestCard  resData={res}/></Link>
